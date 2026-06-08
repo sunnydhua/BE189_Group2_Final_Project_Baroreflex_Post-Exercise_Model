@@ -207,5 +207,41 @@ BRE(valid) = -dHR(valid)./dMAP(valid);
 BRE = movmean(BRE,5,'omitnan');
 
 
+%% Baseline
+
+if alpha_hyd == 1 && alpha_train == 1
+    figure(5);
+    subplot(2,1,1)
+    yyaxis left
+    h5 = plot(t, MAP, 'r-', 'LineWidth', 1.8); hold on
+    h6 = yline(P_star, 'k--', 'LineWidth', 1.2);
+    ylabel('MAP (mmHg)')
+    yyaxis right
+    h7 = plot(t, HR, 'b-', 'LineWidth', 1.8);
+    ylabel('HR (bpm)')
+    xlabel('Time post-exercise (min)')
+    title('MAP and HR')
+    grid on
+    legend([h5 h6 h7], {'MAP', 'Target P^*', 'Heart rate'}, ...
+      'Location', 'best')
+    % (4) BRE and MAP error to target
+    subplot(2,1,2)
+    yyaxis left
+    h8 = plot(t, BRE, 'm-', 'LineWidth', 1.8); hold on
+    ylabel('BRE = -dHR/dMAP (bpm/mmHg)')
+    yyaxis right
+    h9  = plot(t, MAP_error, 'c-', 'LineWidth', 1.8); hold on
+    h10 = yline(0, 'k--', 'LineWidth', 1.2);
+    ylabel('MAP error = P^* - MAP (mmHg)')
+    xlabel('Time post-exercise (min)')
+    title('BRE and Target Tracking Error')
+    grid on
+    legend([h8 h9 h10], {'BRE', 'MAP error', 'Target reached (error = 0)'}, ...
+      'Location', 'best')
+    sgtitle({'Post-Exercise Baroreflex Recovery, General Baseline', ...
+      sprintf('Average person, moderate exercise | G0 = %.1f, alpha_{train} = %.1f, alpha_{hyd} = %.1f', ...
+      G0, alpha_train, alpha_hyd)})
+end
+
 
     
